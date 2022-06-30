@@ -1,4 +1,4 @@
-using DataFrames, XLSX, Statistics, PrettyTables
+using DataFrames, XLSX, CSV, Statistics, PrettyTables
 
 cars_test_without_99 = DataFrame(XLSX.readtable("data/cars_test_without99.xlsx", "cars")...)
 
@@ -10,7 +10,7 @@ cars
 
 # Create a function to more easily write CSVs to disk
 function write_csv(name, df::DataFrame)
-    path = "output/$name.csv"
+    path = "tables/$(name)_jl.csv"
     data = df
     CSV.write(path, data)
 end
@@ -75,7 +75,7 @@ combine(groupby(cars, :brand), nrow => :obs_per_band, :mean_brand_pr)
 # 4.0 -----
 # Tables
 
-table4a = combine(groupby(cars, :cla), [:pr, :we, :le] .=> mean) |> pretty_table
+table4a = combine(groupby(cars, :cla), [:pr, :we, :le] .=> mean)
 
 temp = combine(groupby(cars, [:brand, :ma]), nrow => :count)
 
@@ -86,13 +86,18 @@ table4b = sort(unstack(temp, :ma, :count), :brand)
 
 temp4c = combine(groupby(cars, [:brand, :ma]), [:pr, :qu] => ((x,y) -> sum(x .* y) ./ sum(y)) => :weighted_total_price)
 
-temp4c2 = combine(groupby(cars, [:brand, :ma]), :pr => sum , :pr => mean, nrow => :count)
-transform(temp4c2, [:pr_sum, :count] => ((x,y) -> x./y) => :nice)
 table4c = unstack(temp4c, :ma, :weighted_total_price)
 
 
 temp4d = combine(groupby(cars, [:brand, :ma]), :qu => sum)
 table4d = unstack(temp4d, :ma, :qu_sum)
+
+tables = [table4a, table4b, table4c, table4d]
+table_names = ["table4a", "table4b", "table4c", "table4d"]
+
+for (table, table_name) in zip(tables, table_names)
+    write_csv("$table_name", table)
+end
 
 # 5
 
