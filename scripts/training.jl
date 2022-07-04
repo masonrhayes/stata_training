@@ -1,8 +1,8 @@
 using DataFrames, XLSX, CSV, Statistics, PrettyTables
 
-cars_test_without_99 = DataFrame(XLSX.readtable("data/cars_test_without99.xlsx", "cars")...)
+cars_test_without_99 = DataFrame(XLSX.readtable("data/cars/cars_test_without99.xlsx", "cars")...)
 
-cars_test_99 = DataFrame(XLSX.readtable("data/cars_test_99.xlsx", "cars")...)
+cars_test_99 = DataFrame(XLSX.readtable("data/cars/cars_test_99.xlsx", "cars")...)
 
 cars = append!(cars_test_without_99, cars_test_99)
 

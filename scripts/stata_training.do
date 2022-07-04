@@ -3,21 +3,21 @@
 
 **# Import data
 
-import excel "data/cars_test_without99.xlsx", sheet("cars") firstrow
+import excel "data/cars/cars_test_without99.xlsx", sheet("cars") firstrow
 
-save "data/cars_test_without99.dta"
-
-clear
-
-import excel "data/cars_test_99.xlsx", sheet("cars") firstrow
-
-save "data/cars_test_99.dta"
+save "data/cars/cars_test_without99.dta"
 
 clear
 
-import excel "data/lookup_radio_model.xlsx", firstrow
+import excel "data/cars/cars_test_99.xlsx", sheet("cars") firstrow
 
-save "data/lookup_radio_model.dta"	
+save "data/cars/cars_test_99.dta"
+
+clear
+
+import excel "data/cars/lookup_radio_model.xlsx", firstrow
+
+save "data/cars/lookup_radio_model.dta"	
 
 clear
 
@@ -128,8 +128,8 @@ collect export "tables/table4.4.xlsx"
 
 **# 5.0
 
-// save "data/cars_test_Q5.dta"
-use "data/cars_test_Q5.dta"
+// save "data/cars/cars_test_Q5.dta"
+// use "data/cars/cars_test_Q5.dta"
 
 // before the following command there are 11,404 obs
 
